@@ -10,8 +10,7 @@
    * After the VM is deployed, find the **public IP address** of your server in the Azure portal.
 
 **SSH into your server** from your terminal (on Ubuntu):  
-bash  
-CopyEdit  
+
 `ssh username@your_vm_ip`
 
 * Replace `username` and `your_vm_ip` with your server’s username and IP address.
@@ -23,8 +22,7 @@ CopyEdit
 1. **Update Your Server**:
 
 Run the following command to update your server’s software:  
-bash  
-CopyEdit  
+
 `sudo apt update && sudo apt upgrade -y`
 
 *   
@@ -32,31 +30,27 @@ CopyEdit
    * If you want to secure your server with SSH keys instead of using a password:
 
 On your local machine, create an SSH key pair:  
-bash  
-CopyEdit  
+
 `ssh-keygen -t rsa`
 
 * 
 
 Copy the public key to your server:  
-bash  
-CopyEdit  
+ 
 `ssh-copy-id username@your_vm_ip`
 
 *   
 3. **Disable Root Login**:
 
 To prevent logging in as root directly, edit the SSH config file:  
-bash  
-CopyEdit  
+
 `sudo nano /etc/ssh/sshd_config`
 
 *   
   * Find `PermitRootLogin` and change it to `no`.
 
 Restart SSH:  
-bash  
-CopyEdit  
+
 `sudo systemctl restart ssh`
 
 * 
@@ -68,31 +62,27 @@ CopyEdit
 1. **Install Nginx**:
 
 Run the following command to install Nginx:  
-bash  
-CopyEdit  
+ 
 `sudo apt install nginx -y`
 
 *   
 2. **Start and Enable Nginx**:
 
 Start the Nginx service:  
-bash  
-CopyEdit  
+
 `sudo systemctl start nginx`
 
 * 
 
 Enable it to start automatically on boot:  
-bash  
-CopyEdit  
+
 `sudo systemctl enable nginx`
 
 *   
 3. **Configure Firewall (Optional but Important)**:
 
 Allow traffic on ports 80 (HTTP) and 443 (HTTPS) through the firewall:  
-bash  
-CopyEdit  
+
 `sudo ufw allow 'Nginx Full'`
 
 *   
@@ -106,16 +96,14 @@ CopyEdit
 1. **Install MySQL**:
 
 Run the following command to install MySQL:  
-bash  
-CopyEdit  
+
 `sudo apt install mysql-server -y`
 
 *   
 2. **Secure the Database**:
 
 Run MySQL’s security script to secure your installation:  
-bash  
-CopyEdit  
+
 `sudo mysql_secure_installation`
 
 *   
@@ -123,15 +111,14 @@ CopyEdit
 3. **Create a Database and User**:
 
 Log into MySQL:  
-bash  
-CopyEdit  
+
 `sudo mysql`
 
 * 
 
 Create a database and a user:  
 sql  
-CopyEdit  
+ 
 `CREATE DATABASE mydb;`  
 `CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'password';`  
 `GRANT ALL PRIVILEGES ON mydb.* TO 'myuser'@'localhost';`  
@@ -153,16 +140,14 @@ CopyEdit
 1. **Install PHP** (for WordPress):
 
 Run the following commands to install PHP and the required modules:  
-bash  
-CopyEdit  
+
 `sudo apt install php-fpm php-mysql -y`
 
 *   
 2. **Download and Set Up WordPress**:
 
 Install **WordPress** by downloading it from the official site:  
-bash  
-CopyEdit  
+  
 `cd /var/www/html`  
 `sudo wget https://wordpress.org/latest.tar.gz`  
 `sudo tar -xvzf latest.tar.gz`  
@@ -173,8 +158,7 @@ CopyEdit
 3. **Configure Nginx for WordPress**:
 
 Create a new configuration file for your site:  
-bash  
-CopyEdit  
+
 `sudo nano /etc/nginx/sites-available/wordpress`
 
 * 
@@ -201,8 +185,7 @@ CopyEdit
 * 
 
 Enable the site and restart Nginx:  
-bash  
-CopyEdit  
+  
 `sudo ln -s /etc/nginx/sites-available/wordpress /etc/nginx/sites-enabled/`  
 `sudo systemctl restart nginx`
 
@@ -215,16 +198,14 @@ CopyEdit
 1. **Install Certbot**:
 
 Run the following command to install Certbot (for SSL):  
-bash  
-CopyEdit  
+
 `sudo apt install certbot python3-certbot-nginx -y`
 
 *   
 2. **Generate SSL Certificate**:
 
 Run the following command to get an SSL certificate from Let’s Encrypt:  
-bash  
-CopyEdit  
+
 `sudo certbot --nginx`
 
 *   
@@ -232,8 +213,7 @@ CopyEdit
 3. **Auto-Renewal**:
 
 Set up automatic certificate renewal:  
-bash  
-CopyEdit  
+  
 `sudo systemctl enable certbot.timer`
 
 * 
@@ -245,8 +225,7 @@ CopyEdit
 1. **Write Bash Scripts** for backups or updates:
 
 Example script for server backup:  
-bash  
-CopyEdit  
+  
 `#!/bin/bash`  
 `tar -czf /backup/$(date +\%F)-backup.tar.gz /var/www/html`
 
@@ -254,15 +233,13 @@ CopyEdit
 2. **Schedule with Cron Jobs**:
 
 Open the crontab file:  
-bash  
-CopyEdit  
+
 `crontab -e`
 
 * 
 
 Add a line to back up every day at midnight:  
-bash  
-CopyEdit  
+  
 `0 0 * * * /path/to/backup_script.sh`
 
 * 
@@ -274,8 +251,7 @@ CopyEdit
 1. **Install Monitoring Tools** (e.g., **htop**, **netstat**, **ufw logs**).
 
 To monitor server performance in real-time:  
-bash  
-CopyEdit  
+
 `sudo apt install htop -y`  
 `htop`
 
@@ -289,8 +265,7 @@ CopyEdit
 1. **Set Up Backup** for your databases and web files.
 
 Example for MySQL backup:  
-bash  
-CopyEdit  
+ 
 `mysqldump -u myuser -p mydb > /backup/mydb_backup.sql`
 
 * 
